@@ -13,9 +13,9 @@ import Foundation
 }
 
 public enum HelperConstants {
-    public static let helperBundleID  = "com.allsunday.macfancontrol.helper"
-    public static let machServiceName = "com.allsunday.macfancontrol.helper"
-    public static let daemonPlistName = "com.allsunday.macfancontrol.helper.plist"
+    public static let helperBundleID  = "com.slothease.macfancontrol.helper"
+    public static let machServiceName = "com.slothease.macfancontrol.helper"
+    public static let daemonPlistName = "com.slothease.macfancontrol.helper.plist"
     /// Bumped on protocol changes — used by the app's `ping` handshake to detect stale daemons.
     public static let protocolVersion = "1"
 }

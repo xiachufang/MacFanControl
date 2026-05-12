@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.allsunday.macfancontrol.helper</string>
+    <string>com.slothease.macfancontrol.helper</string>
     <key>BundleProgram</key>
-    <string>Contents/MacOS/com.allsunday.macfancontrol.helper</string>
+    <string>Contents/MacOS/com.slothease.macfancontrol.helper</string>
     <key>MachServices</key>
     <dict>
-        <key>com.allsunday.macfancontrol.helper</key>
+        <key>com.slothease.macfancontrol.helper</key>
         <true/>
     </dict>
     <key>AssociatedBundleIdentifiers</key>
     <array>
-        <string>com.allsunday.macfancontrol</string>
+        <string>com.slothease.macfancontrol</string>
     </array>
     <key>RunAtLoad</key>
     <false/>

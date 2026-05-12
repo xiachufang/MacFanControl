@@ -9,7 +9,7 @@ import Security
 /// main actor. Without this, Approachable Concurrency would infer `@MainActor` for the
 /// class and the runtime would trap on the first incoming connection.
 nonisolated final class HelperListener: NSObject, NSXPCListenerDelegate {
-    private let allowedClientBundleID = "com.allsunday.macfancontrol"
+    private let allowedClientBundleID = "com.slothease.macfancontrol"
     /// The Team ID this helper itself is signed by — derived from our own SecCode at startup
     /// rather than hardcoded. Whoever signs the helper transitively dictates which apps may
     /// connect: the same identity must sign the calling app. `nil` for ad-hoc builds (then

@@ -64,7 +64,7 @@ private struct SMCParam {
 /// Thread-safety: every IOConnect call is serialized on `queue`. The connection handle is
 /// not safe to share concurrently, but the wrapper hides that behind `Sendable` via the queue.
 public final class IOKitSMCClient: SMCClient, @unchecked Sendable {
-    private let queue = DispatchQueue(label: "com.allsunday.macfancontrol.smc")
+    private let queue = DispatchQueue(label: "com.slothease.macfancontrol.smc")
     private var connection: io_connect_t = 0
 
     public init() throws {

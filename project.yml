@@ -1,6 +1,6 @@
 name: MacFanControl
 options:
-  bundleIdPrefix: com.allsunday
+  bundleIdPrefix: com.slothease
   deploymentTarget:
     macOS: "26.0"
   developmentLanguage: en
@@ -51,7 +51,7 @@ targets:
         com.apple.security.app-sandbox: false
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.allsunday.macfancontrol
+        PRODUCT_BUNDLE_IDENTIFIER: com.slothease.macfancontrol
         PRODUCT_NAME: MacFanControl
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_LSUIElement: YES
@@ -72,27 +72,27 @@ targets:
       - name: Embed Helper Executable
         script: |
           set -e
-          HELPER_SRC="$BUILT_PRODUCTS_DIR/com.allsunday.macfancontrol.helper"
+          HELPER_SRC="$BUILT_PRODUCTS_DIR/com.slothease.macfancontrol.helper"
           DEST_DIR="$TARGET_BUILD_DIR/$WRAPPER_NAME/Contents/MacOS"
           mkdir -p "$DEST_DIR"
-          cp "$HELPER_SRC" "$DEST_DIR/com.allsunday.macfancontrol.helper"
-          chmod +x "$DEST_DIR/com.allsunday.macfancontrol.helper"
+          cp "$HELPER_SRC" "$DEST_DIR/com.slothease.macfancontrol.helper"
+          chmod +x "$DEST_DIR/com.slothease.macfancontrol.helper"
           if [ -n "$EXPANDED_CODE_SIGN_IDENTITY" ]; then
             codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" \
               --options runtime \
-              "$DEST_DIR/com.allsunday.macfancontrol.helper"
+              "$DEST_DIR/com.slothease.macfancontrol.helper"
           fi
         outputFiles:
-          - $(TARGET_BUILD_DIR)/$(WRAPPER_NAME)/Contents/MacOS/com.allsunday.macfancontrol.helper
+          - $(TARGET_BUILD_DIR)/$(WRAPPER_NAME)/Contents/MacOS/com.slothease.macfancontrol.helper
         basedOnDependencyAnalysis: false
       - name: Embed LaunchDaemons plist
         script: |
           set -e
           DEST_DIR="$TARGET_BUILD_DIR/$WRAPPER_NAME/Contents/Library/LaunchDaemons"
           mkdir -p "$DEST_DIR"
-          cp "$SRCROOT/Helper/Launchd.plist" "$DEST_DIR/com.allsunday.macfancontrol.helper.plist"
+          cp "$SRCROOT/Helper/Launchd.plist" "$DEST_DIR/com.slothease.macfancontrol.helper.plist"
         outputFiles:
-          - $(TARGET_BUILD_DIR)/$(WRAPPER_NAME)/Contents/Library/LaunchDaemons/com.allsunday.macfancontrol.helper.plist
+          - $(TARGET_BUILD_DIR)/$(WRAPPER_NAME)/Contents/Library/LaunchDaemons/com.slothease.macfancontrol.helper.plist
         basedOnDependencyAnalysis: false
 
   MacFanControlHelper:
@@ -105,8 +105,8 @@ targets:
           - "HelperInfo.plist"
     settings:
       base:
-        PRODUCT_NAME: com.allsunday.macfancontrol.helper
-        PRODUCT_BUNDLE_IDENTIFIER: com.allsunday.macfancontrol.helper
+        PRODUCT_NAME: com.slothease.macfancontrol.helper
+        PRODUCT_BUNDLE_IDENTIFIER: com.slothease.macfancontrol.helper
         OTHER_LDFLAGS:
           - -sectcreate
           - __TEXT

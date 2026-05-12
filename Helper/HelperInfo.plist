@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>CFBundleIdentifier</key>
-    <string>com.allsunday.macfancontrol.helper</string>
+    <string>com.slothease.macfancontrol.helper</string>
     <key>CFBundleName</key>
     <string>MacFanControlHelper</string>
     <key>CFBundleVersion</key>
@@ -13,6 +13,6 @@
     <key>CFBundlePackageType</key>
     <string>XPC!</string>
     <key>CFBundleExecutable</key>
-    <string>com.allsunday.macfancontrol.helper</string>
+    <string>com.slothease.macfancontrol.helper</string>
 </dict>
 </plist>
