@@ -1,0 +1,13 @@
+// Copy this file to Signing.local.xcconfig (which is gitignored) and fill in your own
+// values. project.yml references Signing.local.xcconfig per-configuration, so xcodegen
+// will refuse to generate the project until the local copy exists.
+//
+// Find your code signing identity SHA1:
+//     security find-identity -v -p codesigning
+// Pick an "Apple Development: <you> (TEAMID)" entry. The hex on the left is the SHA1.
+// The 10-character code in parentheses is the team ID.
+
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = -                                  // SHA1 of cert, or "-" for ad-hoc
+DEVELOPMENT_TEAM =                                      // 10-char team ID
+PROVISIONING_PROFILE_SPECIFIER =

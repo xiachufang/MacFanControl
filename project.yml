@@ -1,0 +1,124 @@
+name: MacFanControl
+options:
+  bundleIdPrefix: com.allsunday
+  deploymentTarget:
+    macOS: "26.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    SWIFT_APPROACHABLE_CONCURRENCY: YES
+    SWIFT_DEFAULT_ACTOR_ISOLATION: MainActor
+    SWIFT_UPCOMING_FEATURE_INFER_ISOLATED_CONFORMANCES: YES
+    SWIFT_UPCOMING_FEATURE_NONISOLATED_NONSENDING_BY_DEFAULT: YES
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    ARCHS: arm64
+    ONLY_ACTIVE_ARCH: YES
+    ENABLE_HARDENED_RUNTIME: YES
+
+configFiles:
+  Debug: Signing.local.xcconfig
+  Release: Signing.local.xcconfig
+
+packages:
+  MacFanControl:
+    path: .
+
+targets:
+  MacFanControl:
+    type: application
+    platform: macOS
+    sources:
+      - path: App
+        excludes:
+          - "Helper/Launchd.plist"
+          - "Helper/HelperInfo.plist"
+    info:
+      path: App/Info.plist
+      properties:
+        LSUIElement: YES
+        LSMinimumSystemVersion: "26.0"
+        CFBundleShortVersionString: "0.1.0"
+        CFBundleVersion: "1"
+    entitlements:
+      path: App/MacFanControl.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.allsunday.macfancontrol
+        PRODUCT_NAME: MacFanControl
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_LSUIElement: YES
+        ENABLE_APP_SANDBOX: NO
+    dependencies:
+      - package: MacFanControl
+        product: SMCKit
+      - package: MacFanControl
+        product: FanDomain
+      - package: MacFanControl
+        product: HelperIPC
+      - target: MacFanControlHelper
+        embed: false
+        copy:
+          destination: executables
+    buildRules: []
+    postBuildScripts:
+      - name: Embed Helper Executable
+        script: |
+          set -e
+          HELPER_SRC="$BUILT_PRODUCTS_DIR/com.allsunday.macfancontrol.helper"
+          DEST_DIR="$TARGET_BUILD_DIR/$WRAPPER_NAME/Contents/MacOS"
+          mkdir -p "$DEST_DIR"
+          cp "$HELPER_SRC" "$DEST_DIR/com.allsunday.macfancontrol.helper"
+          chmod +x "$DEST_DIR/com.allsunday.macfancontrol.helper"
+          if [ -n "$EXPANDED_CODE_SIGN_IDENTITY" ]; then
+            codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" \
+              --options runtime \
+              "$DEST_DIR/com.allsunday.macfancontrol.helper"
+          fi
+        outputFiles:
+          - $(TARGET_BUILD_DIR)/$(WRAPPER_NAME)/Contents/MacOS/com.allsunday.macfancontrol.helper
+        basedOnDependencyAnalysis: false
+      - name: Embed LaunchDaemons plist
+        script: |
+          set -e
+          DEST_DIR="$TARGET_BUILD_DIR/$WRAPPER_NAME/Contents/Library/LaunchDaemons"
+          mkdir -p "$DEST_DIR"
+          cp "$SRCROOT/Helper/Launchd.plist" "$DEST_DIR/com.allsunday.macfancontrol.helper.plist"
+        outputFiles:
+          - $(TARGET_BUILD_DIR)/$(WRAPPER_NAME)/Contents/Library/LaunchDaemons/com.allsunday.macfancontrol.helper.plist
+        basedOnDependencyAnalysis: false
+
+  MacFanControlHelper:
+    type: tool
+    platform: macOS
+    sources:
+      - path: Helper
+        excludes:
+          - "Launchd.plist"
+          - "HelperInfo.plist"
+    settings:
+      base:
+        PRODUCT_NAME: com.allsunday.macfancontrol.helper
+        PRODUCT_BUNDLE_IDENTIFIER: com.allsunday.macfancontrol.helper
+        OTHER_LDFLAGS:
+          - -sectcreate
+          - __TEXT
+          - __info_plist
+          - $(SRCROOT)/Helper/HelperInfo.plist
+          - -sectcreate
+          - __TEXT
+          - __launchd_plist
+          - $(SRCROOT)/Helper/Launchd.plist
+        SKIP_INSTALL: NO
+    dependencies:
+      - package: MacFanControl
+        product: SMCKit
+      - package: MacFanControl
+        product: HelperIPC
